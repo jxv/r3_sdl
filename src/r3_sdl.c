@@ -87,8 +87,8 @@ bool r3_sdl_init(const char *title, v2i window_size, struct r3_ren *ren) {
 	void *backend = r3_sdl_create_backend(title, window_size);
 	*ren = (struct r3_ren) {
 		.window_size = window_size,
-		.clear_bits = R3_DEFAULT_CLEAR_BITS,
-		.clear_color = R3_DEFAULT_CLEAR_COLOR,
+		.clear_bits = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+		.clear_color = _v3f(0,0,0),
 		.backend = backend,
 		.render = r3_sdl_render,
 		.quit = r3_sdl_quit,
