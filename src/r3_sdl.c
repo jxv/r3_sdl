@@ -1,6 +1,7 @@
 #include "r3_sdl.h"
 
-static bool r3_sdl_init_video() {
+static bool r3_sdl_init_video()
+{
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Couldn't initialize ren driver: %s\n", SDL_GetError());
 		return false;
@@ -8,7 +9,8 @@ static bool r3_sdl_init_video() {
 	return true;
 }
 
-static void r3_sdl_set_gl_attributes() {
+static void r3_sdl_set_gl_attributes()
+{
         SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
         SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
         SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
@@ -32,7 +34,8 @@ static void r3_sdl_set_gl_attributes() {
         SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 }
 
-static SDL_Window *r3_sdl_create_window(const char *title, int width, int height) {
+static SDL_Window *r3_sdl_create_window(const char *title, int width, int height)
+{
 	return SDL_CreateWindow(
 		title,
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -41,7 +44,8 @@ static SDL_Window *r3_sdl_create_window(const char *title, int width, int height
 	);
 }
 
-static bool r3_sdl_create_gl_context(SDL_Window *window, SDL_GLContext *cxt) {
+static bool r3_sdl_create_gl_context(SDL_Window *window, SDL_GLContext *cxt)
+{
 	*cxt = SDL_GL_CreateContext(window);
 	if (!*cxt) {
 		SDL_Log("SDL_GL_CreateContext(): %s\n", SDL_GetError());
@@ -56,11 +60,13 @@ static bool r3_sdl_create_gl_context(SDL_Window *window, SDL_GLContext *cxt) {
 	return true;
 }
 
-void r3_sdl_render(struct r3_ren *ren) {
+void r3_sdl_render(struct r3_ren *ren)
+{
 	SDL_GL_SwapWindow(((struct r3_sdl_backend*)ren->backend)->window);
 }
 
-void *r3_sdl_create_backend(const char *title, v2i window_size) {
+void *r3_sdl_create_backend(const char *title, v2i window_size)
+{
 	struct r3_sdl_backend *backend = malloc(sizeof(struct r3_sdl_backend));
 	if (!r3_sdl_init_video()) {
 		free(backend);
@@ -79,13 +85,15 @@ void *r3_sdl_create_backend(const char *title, v2i window_size) {
 	return backend;
 }
 
-void r3_sdl_quit(struct r3_ren *ren) {
+void r3_sdl_quit(struct r3_ren *ren)
+{
 	struct r3_sdl_backend *backend = ren->backend;
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	SDL_DestroyWindow(backend->window);
 }
 
-bool r3_sdl_init(const char *title, v2i window_size, struct r3_ren *ren) {
+bool r3_sdl_init(const char *title, v2i window_size, struct r3_ren *ren)
+{
 	void *backend = r3_sdl_create_backend(title, window_size);
 	*ren = (struct r3_ren) {
 		.window_size = window_size,
@@ -97,4 +105,3 @@ bool r3_sdl_init(const char *title, v2i window_size, struct r3_ren *ren) {
 	};
 	return true;
 }
-
