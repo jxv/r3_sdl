@@ -29,14 +29,16 @@ static void r3_sdl_set_gl_attributes() {
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
         // SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-        // SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+        SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 }
 
 static SDL_Window *r3_sdl_create_window(const char *title, int width, int height) {
-	return SDL_CreateWindow(title,
-				SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-				width, height,
-				SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
+	return SDL_CreateWindow(
+		title,
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		width, height,
+		SDL_WINDOW_OPENGL
+	);
 }
 
 static bool r3_sdl_create_gl_context(SDL_Window *window, SDL_GLContext *cxt) {
